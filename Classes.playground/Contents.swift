@@ -16,12 +16,23 @@ import Foundation
  
  Create a new class called `Person`. This class should include properties for a person's first and last name. Name these properties `firstName` and `lastName`. You should also create an initializer that takes a first and last name as parameters and assigns them to the property.
  */
-// write your code here
-
-
-
-
-
+class Person {
+    var firstName: String
+    var lastName: String
+    var fullName: String {
+        get{ return "\(firstName) \(lastName)"
+        }
+    }
+    init(firstName: String, lastName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+    
+    func greet(person: Person)-> String {
+        return "Hello \(self.firstName)"
+    }
+    
+}
 
 
 // Test
@@ -75,13 +86,28 @@ assert(greeting == "Hello, Alice!", greeting)
  
  (Note that the code below also includes an extension for adding a method to `Double`. You'll learn more about extensions later, so for now, don't worry about it. You'll see how to use it in Question #6 below.)
  */
+class Transaction {
+    var type: String
+    var amount: Double
+    var description: String {
+        get {
+            return "Transaction: \(type) in the amount of $\(amount)"
+        }
+    }
+
+init(type: String, amount: Double){
+    self.type = type
+    self.amount = amount
+}
+
+}
+
 extension Double {
     var toMoney: String {
         return NSString(format: "%.2f", self) as String
     }
 }
 
-// write your code here
 
 
 
@@ -111,13 +137,6 @@ assert(transaction2.amount == 1.2, "\(transaction2.amount)")
 
 
 
-
-
-
-
-
-
-
 // Test
 assert(transaction1.description == "Transaction: credit in the amount of $10.00", transaction1.description)
 assert(transaction2.description == "Transaction: debit in the amount of $1.20", transaction2.description)
@@ -134,7 +153,33 @@ assert(transaction2.description == "Transaction: debit in the amount of $1.20", 
  */
 // write your code here
 
+class BankAccount {
+    var owner: Person
+    var transactions: [Transaction]
+    var balance: Double { for (type , amount) in [self.transactions] {
+        if type = "in" {
+            self.balance = self.balance + amount
+        }
+        else{
+            self.balance = self.balance - amount
+        }
+        }
+    }
 
+
+    init(owner: Person) {
+        self.owner = owner
+        self.transactions = []
+    }
+    func deposit(amountToDeposit: Double) {
+        let deposit = Transaction(type: "in", amount: amountToDeposit)
+        transactions.append(deposit)
+    }
+    func withdraw(amountToWithdraw:Double) {
+        let withdrawal = Transaction(type: "out", amount: amountToWithdraw)
+        transactions.append(withdrawal)
+    }
+}
 
 
 
@@ -154,13 +199,6 @@ assert(personBankAccount.transactions.isEmpty)
  
  You need a way to for people to add money to their bank account. In the `BankAccount` class you created in Question #6, add a method called `deposit(_:)`. This method should take a `Double` representing the amount to be deposited into the account as a parameter. It should create a new `Transaction` object representing the deposit and add it to the `BankAccount`'s `transactions` array. This method does not need to return anything.
  */
-
-
-
-
-
-
-
 
 
 
