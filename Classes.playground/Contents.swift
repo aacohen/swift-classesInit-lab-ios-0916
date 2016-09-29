@@ -19,17 +19,14 @@ import Foundation
 class Person {
     var firstName: String
     var lastName: String
-    var fullName: String {
-        get{ return "\(firstName) \(lastName)"
-        }
-    }
+    var fullName: String {return "\(firstName) \(lastName)"}
     init(firstName: String, lastName: String) {
         self.firstName = firstName
         self.lastName = lastName
     }
     
-    func greet(person: Person)-> String {
-        return "Hello \(self.firstName)"
+    func greet(person: Person) -> String {
+        return "Hello, \(person.firstName)!"
     }
     
 }
@@ -90,15 +87,20 @@ class Transaction {
     var type: String
     var amount: Double
     var description: String {
-        get {
-            return "Transaction: \(type) in the amount of $\(amount)"
+        if type == "in"{
+            type = "credit"
         }
+        else {
+            type = "debit"
+        }
+        return "Transaction: \(type) in the amount of $\(amount.toMoney)"
     }
+    
 
-init(type: String, amount: Double){
-    self.type = type
-    self.amount = amount
-}
+    init(type: String, amount: Double){
+        self.type = type
+        self.amount = amount
+    }
 
 }
 
