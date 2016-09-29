@@ -71,9 +71,9 @@ assert(person.fullName == "Alice Johnson", person.fullName)
 
 // Test
 let friend = Person(firstName: "Phil", lastName: "Davies")
-var greeting = person.greet(friend)
+var greeting = person.greet(person: friend)
 assert(greeting == "Hello, Phil!", greeting)
-greeting = friend.greet(person)
+greeting = friend.greet(person: person)
 assert(greeting == "Hello, Alice!", greeting)
 
 /*: section4
@@ -156,14 +156,19 @@ assert(transaction2.description == "Transaction: debit in the amount of $1.20", 
 class BankAccount {
     var owner: Person
     var transactions: [Transaction]
-    var balance: Double { for (type , amount) in [self.transactions] {
-        if type = "in" {
-            self.balance = self.balance + amount
+
+    var balance: Double {  var total = 0.0
+        for transaction in self.transactions {
+            
+            if transaction.type == "in" {
+                total += transaction.amount
+            }
+            else{
+                total -= transaction.amount
+            }
+            
         }
-        else{
-            self.balance = self.balance - amount
-        }
-        }
+        return total
     }
 
 
@@ -204,9 +209,9 @@ assert(personBankAccount.transactions.isEmpty)
 
 
 // Test
-personBankAccount.deposit(100.0)
+personBankAccount.deposit(amountToDeposit: 100.0)
 assert(personBankAccount.transactions.count == 1, "\(personBankAccount.transactions.count)")
-personBankAccount.deposit(10.0)
+personBankAccount.deposit(amountToDeposit: 10.0)
 assert(personBankAccount.transactions.count == 2, "\(personBankAccount.transactions.count)")
 
 /*: section8
@@ -226,9 +231,9 @@ assert(personBankAccount.transactions.count == 2, "\(personBankAccount.transacti
 
 
 // Test
-personBankAccount.withdraw(25.0)
+personBankAccount.withdraw(amountToWithdraw: 25.0)
 assert(personBankAccount.transactions.count == 3, "\(personBankAccount.transactions.count)")
-personBankAccount.withdraw(10.5)
+personBankAccount.withdraw(amountToWithdraw: 10.5)
 assert(personBankAccount.transactions.count == 4, "\(personBankAccount.transactions.count)")
 
 /*: section9
